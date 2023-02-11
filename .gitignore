@@ -130,4 +130,4 @@ dist
 # secret stuff
 config.json
 .env
-/data
+data/data.db
