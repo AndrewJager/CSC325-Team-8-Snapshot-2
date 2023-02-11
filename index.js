@@ -3,6 +3,8 @@ const {Client, Collection, Events, GatewayIntentBits} = require('discord.js');
 const fs = require("node:fs");
 const path = require("node:path");
 
+const database = require('./database');
+
 // Import token from private config file
 const {token} = require('./config.json');
 
@@ -27,6 +29,8 @@ for (const file of commandFiles) {
 client.once(Events.ClientReady, c => {
     console.log("Team 8 bot is now online!");
     console.log("Logged in as " + c.user.tag);
+
+	database.setup();
 });
 
 // Run the desired command
