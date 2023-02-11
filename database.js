@@ -5,6 +5,7 @@ const sqlite3 = require('sqlite3').verbose();
 const schemaPath = 'data/schema.txt';
 const dbPath = 'data/data.db';
 const dbEditTable = 'edits';
+const comment = '--';
 
 module.exports = {
     setup: function () {
@@ -21,7 +22,13 @@ module.exports = {
 
                 // Run database commands from schema file
                 fs.readFile(schemaPath, function(err, f){
-                    var sqlCommands = f.toString().split('^');
+                    var lines = f.toString().split(/\r?\n/); // '/n' doesn't work, but this does
+
+                    // Remove comments
+                    lines = lines.filter(function(item) {
+                        return item.toString().substring(0, 2) !== comment;
+                    });
+                    var sqlCommands = lines.join('').split('^');
         
                     // Remove whitespace
                     for (let i = 0; i < sqlCommands.length; i++) {

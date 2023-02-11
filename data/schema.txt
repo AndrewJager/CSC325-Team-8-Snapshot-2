@@ -1,3 +1,9 @@
+-- Add tables to the database by adding a CREATE TABLE command to this file
+-- All commands must be separated by a '^' character
+-- To change an existing table, without deleting the existing database and re-running all commands,
+-- 	  add and ALTER TABLE command - https://www.sqlite.org/lang_altertable.html
+-- INSERT, UPDATE, and DELETE can be added here if you wish to setup some default data
+
 CREATE TABLE test (
 	test_id INTEGER PRIMARY KEY,
 	first_name TEXT NOT NULL
@@ -14,3 +20,6 @@ CREATE TABLE test3 (
 	test_id INTEGER PRIMARY KEY,
 	first_name TEXT NOT NULL
 );
+
+
+-- Do not include the '^' after the last command!
