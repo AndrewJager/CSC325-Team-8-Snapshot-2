@@ -2,6 +2,8 @@ const { ThreadChannel } = require("discord.js");
 const fs = require("node:fs");
 const sqlite3 = require('sqlite3').verbose();
 
+const Course = require('./course');
+
 const schemaPath = 'data/schema.txt';
 const dbPath = 'data/data.db';
 const dbEditTable = 'edits';
@@ -50,6 +52,18 @@ module.exports = {
                 });
             });
         });
+    },
+
+    saveCourse: function(course) {
+        let db = new sqlite3.Database(dbPath);
+
+        course.saveToDB(db);
+    },
+
+    getAllCourses: function() {
+        let db = new sqlite3.Database(dbPath);
+
+        return Course.getAllCourses(db);
     }
 };
 

@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, ChannelType, PermissionsBitField } = require('discord.js');
+const Course = require('../course');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -7,10 +8,14 @@ module.exports = {
 		.addStringOption((option) => option.setName('dept').setDescription('The class dept (without the class number)').setRequired(true))
 		.addStringOption((option) => option.setName('classcode').setDescription('The class number (without the dept)').setRequired(true))
 		.addStringOption((option) => option.setName('semester').setDescription('The class semester (example: "Fall 2022"').setRequired(true)),
-	async execute(interaction) {
+	async execute(interaction, database) {
 		const dept = interaction.options.getString('dept').toUpperCase();
 		const course = interaction.options.getString('classcode');
 		const semester = interaction.options.getString('semester');
+
+        // Save course to database
+        const courseObj = new Course(dept, course, semester);
+        database.saveCourse(courseObj);
 
         const studentsRole = course + " Students";
         const veteranRole = course + " Veteran";
