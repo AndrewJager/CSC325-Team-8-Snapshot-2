@@ -64,6 +64,12 @@ module.exports = {
         let db = new sqlite3.Database(dbPath);
 
         return Course.getAllCourses(db);
+    },
+
+    deleteCourse: function(dept, code, semester) {
+        let db = new sqlite3.Database(dbPath);
+
+        return Course.deleteCourse(db, dept, code, semester);
     }
 };
 
