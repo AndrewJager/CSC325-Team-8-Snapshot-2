@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/CatsAreEvil/CSC325-Team-8-Development#readme",
   "dependencies": {
+    "color": "^4.2.3",
     "discord.js": "^14.7.1",
     "sqlite3": "^5.1.4"
   },

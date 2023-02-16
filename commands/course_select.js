@@ -79,7 +79,7 @@ module.exports = {
 					value: 'Verify that the channels you need access to were added to the sidebar after selecting the classes you need. You will see the left sidebar populate with channels after you click the buttons that are the classes you need.',
 				},
 			])
-		await interaction.reply({ embeds: [embed], components: [button, button2] });
+		await interaction.reply({ embeds: [embed], components: [button] });
 
 		const collector = await interaction.channel.createMessageComponentCollector();
 
