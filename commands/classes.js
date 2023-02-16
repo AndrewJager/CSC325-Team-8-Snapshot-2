@@ -7,6 +7,9 @@ module.exports = {
 	async execute(interaction, database) {
 		database.getAllCourses().then(courses => {
 			let msg = '';
+			if (courses.length === 0) {
+				msg = 'There are no current courses!';
+			}
 			courses.forEach(course => {
 				msg = msg + course.dept + course.code + ' - ' + course.semester + '\n';
 			});
