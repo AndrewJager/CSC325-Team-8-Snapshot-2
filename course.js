@@ -36,6 +36,18 @@ class Course {
             });
         });
     }
+
+    static deleteCourse(db, dept, code, semester) {
+        db.run('DELETE FROM ' + this.tableName
+            + ' WHERE dept = $dept'
+            + ' AND code = $code'
+            + ' AND semester = $semester',
+            {
+                $dept: dept,
+                $code: code,
+                $semester: semester
+            });
+    }
 }
 
 module.exports = Course;
