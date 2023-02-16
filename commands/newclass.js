@@ -7,7 +7,9 @@ module.exports = {
 		.setDescription('Create a class')
 		.addStringOption((option) => option.setName('dept').setDescription('The class dept (without the class number)').setRequired(true))
 		.addStringOption((option) => option.setName('classcode').setDescription('The class number (without the dept)').setRequired(true))
-		.addStringOption((option) => option.setName('semester').setDescription('The class semester (example: "Fall 2022"').setRequired(true)),
+		.addStringOption((option) => option.setName('semester').setDescription('The class semester (example: "Fall 2022"').setRequired(true))
+        .addStringOption((option) => option.setName('cohabitate').setDescription('Select a class to cohabitate with').setRequired(true)
+        .setAutocomplete(true)),
 	async execute(interaction, database) {
 		const dept = interaction.options.getString('dept').toUpperCase();
 		const course = interaction.options.getString('classcode');
@@ -82,5 +84,21 @@ module.exports = {
             await interaction.reply({ content: 'Created class ' + dept
                             + ' ' + course + ' in semester ' + semester, ephemeral: true });
             }
+	},
+    async autocomplete(interaction, database) {
+		const focusedValue = interaction.options.getFocused();
+
+        database.getAllCourses().then(courses => {
+			const classes = [];
+            classes.push('None');
+			courses.forEach(course => {
+                classes.push(course.dept + ' ' + course.code);
+			});
+			const filtered = classes.filter(course => course.startsWith(focusedValue));
+
+            interaction.respond(
+                filtered.map(choice => ({ name: choice, value: choice })),
+            );
+		});
 	},
 };
