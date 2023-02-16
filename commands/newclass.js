@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, ChannelType, PermissionsBitField } = require('discord.js');
 const Course = require('../course');
+const Color = require('color');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,12 +14,16 @@ module.exports = {
 		const course = interaction.options.getString('classcode');
 		const semester = interaction.options.getString('semester');
 
-        // Save course to database
+        //Save course to database
         const courseObj = new Course(dept, course, semester);
         database.saveCourse(courseObj);
 
         const studentsRole = course + " Students";
         const veteranRole = course + " Veteran";
+        
+        /* testing colors but it ain't working atm so ignore for now
+        const colorOriginal = Color('rbg(255, 255, 255');
+        const colorDarken = colorOriginal.darken(0.5);            */
 
         if (interaction.guild.roles.cache.find(role => role.name == studentsRole) && 
             interaction.guild.roles.cache.find(role => role.name == veteranRole)) {
@@ -30,7 +35,6 @@ module.exports = {
                 permissions: [PermissionsBitField.Flags.SendMessages,
                               PermissionsBitField.Flags.ViewChannel,
                               PermissionsBitField.Flags.ReadMessageHistory,
-                              PermissionsBitField.Flags.UseApplicationCommands,
                               PermissionsBitField.Flags.ChangeNickname,
                               PermissionsBitField.Flags.AddReactions, 
                               PermissionsBitField.Flags.AttachFiles],
@@ -40,32 +44,74 @@ module.exports = {
                 name: veteranRole,
                 permissions: [PermissionsBitField.Flags.SendMessages,
                               PermissionsBitField.Flags.ViewChannel,
-                              PermissionsBitField.Flags.ReadMessageHistory,
-                              PermissionsBitField.Flags.UseApplicationCommands,
+                              PermissionsBitField.Flags.ReadMessageHistory,,
                               PermissionsBitField.Flags.ChangeNickname,
                               PermissionsBitField.Flags.AddReactions, 
                               PermissionsBitField.Flags.AttachFiles],
                 color: Math.floor(Math.random() * (0xFFFFFF + 1))
             });
 
+            const studentID = interaction.guild.roles.cache.find(role => role.name === studentsRole).id;
             interaction.guild.channels.create({
                 name: dept + ' ' + course + ' - ' + semester,
                 type: ChannelType.GuildCategory,
+                permissionOverwrites: [{
+                    id: interaction.guild.id,
+                    deny: [PermissionsBitField.Flags.ViewChannel]
+                },
+                {
+                    id: studentID,
+                    allow:[PermissionsBitField.Flags.ViewChannel,
+                        PermissionsBitField.Flags.CreateInstantInvite,
+                        PermissionsBitField.Flags.CreatePrivateThreads,
+                        PermissionsBitField.Flags.CreatePublicThreads]
+                },],
             }).then(category => {
                 interaction.guild.channels.create({
                     name: 'announcements-' + course,
                     type: ChannelType.GuildText,
                     parent: category.id,
+                    permissionOverwrites: [{
+                        id: studentID,
+                        allow:[PermissionsBitField.Flags.ViewChannel],
+                        deny: [PermissionsBitField.Flags.SendMessages]    
+                    },
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionsBitField.Flags.ViewChannel]
+
+                    }]
                 });
                 interaction.guild.channels.create({
                     name: 'zoom-meeting-info-' + course,
                     type: ChannelType.GuildText,
                     parent: category.id,
+                    permissionOverwrites: [{
+                        id: studentID,
+                        allow:[PermissionsBitField.Flags.ViewChannel],
+                        deny: [PermissionsBitField.Flags.SendMessages]
+                         
+                    },
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionsBitField.Flags.ViewChannel]
+
+                    }]
                 });
                 interaction.guild.channels.create({
                     name: 'how-to-make-a-video',
                     type: ChannelType.GuildText,
                     parent: category.id,
+                    permissionOverwrites: [{
+                        id: studentID,
+                        allow:[PermissionsBitField.Flags.ViewChannel],
+                        deny: [PermissionsBitField.Flags.SendMessages]
+                    },
+                    {
+                        id: interaction.guild.id,
+                        deny: [PermissionsBitField.Flags.ViewChannel]
+
+                    }]
                 });
                 interaction.guild.channels.create({
                     name: 'introduce-yourself',
