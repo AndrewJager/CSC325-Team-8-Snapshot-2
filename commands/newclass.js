@@ -6,12 +6,12 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('newclass')
 		.setDescription('Create a class')
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 		.addStringOption((option) => option.setName('dept').setDescription('The class dept (without the class number)').setRequired(true))
 		.addStringOption((option) => option.setName('classcode').setDescription('The class number (without the dept)').setRequired(true))
 		.addStringOption((option) => option.setName('semester').setDescription('The class semester (example: "Fall 2022"').setRequired(true))
         .addStringOption((option) => option.setName('cohabitate').setDescription('Select a class to cohabitate with').setRequired(true)
-        .setAutocomplete(true))
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+        .setAutocomplete(true)),
 	async execute(interaction, database) {
 		const dept = interaction.options.getString('dept').toUpperCase();
 		const course = interaction.options.getString('classcode');

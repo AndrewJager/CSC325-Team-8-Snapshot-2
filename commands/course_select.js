@@ -1,9 +1,10 @@
-const { SlashCommandBuilder, EmbedBuilder, Embed, PermissionsBitField, ButtonStyle, ActionRowBuilder, ButtonBuilder, ActionRow, TeamMemberMembershipState } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Embed, PermissionFlagsBits, ButtonStyle, ActionRowBuilder, ButtonBuilder, ActionRow, TeamMemberMembershipState } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('courses')
 		.setDescription('Create a message to allow students to assign roles to themselves')
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 		.addRoleOption(option => option.setName('role1').setDescription('1st role you want to add.').setRequired(true))
 		.addRoleOption(option => option.setName(`role2`).setDescription('2nd role you want to add.').setRequired(false))
 		.addRoleOption(option => option.setName(`role3`).setDescription('3nd role you want to add.').setRequired(false))

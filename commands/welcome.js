@@ -1,9 +1,10 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('welcome')
-		.setDescription('Generate a welcome message.'),
+		.setDescription('Generate a welcome message.')
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 	async execute(interaction) {
 		const embed = new EmbedBuilder()
 			.setTitle('Welcome to Profressor Spradling\'s Discord!')

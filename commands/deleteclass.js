@@ -4,6 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
          .setName('delete-channels')
          .setDescription('This command will delete channels under a specific category.')
+         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
          .addStringOption((option) => option.setName('dept').setDescription('The class dept (without the class number)').setRequired(true))
 	     .addStringOption((option) => option.setName('classcode').setDescription('The class number (without the dept)').setRequired(true))
 	     .addStringOption((option) => option.setName('semester').setDescription('The class semester (example: "Fall 2022"').setRequired(true)),

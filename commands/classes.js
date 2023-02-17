@@ -1,9 +1,10 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('classes')
-		.setDescription('Lists all active classes'),
+		.setDescription('Lists all active classes')
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 	async execute(interaction, database) {
 		database.getAllCourses().then(courses => {
 			let msg = '';

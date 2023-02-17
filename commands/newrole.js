@@ -1,9 +1,10 @@
-const { SlashCommandBuilder, ChannelType, PermissionsBitField } = require('discord.js');
+const { SlashCommandBuilder, ChannelType, PermissionsBitField, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('newrole')
 		.setDescription('Create a new general role')
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 		.addStringOption((option) => option.setName('name').setDescription('The class dept (without the class number)').setRequired(true))
 		.addStringOption((option) => option.setName('color').setDescription('Enter a hexcode for the color of the role').setRequired(true)),
 	
