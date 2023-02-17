@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ChannelType, PermissionsBitField } = require('discord.js');
+const { SlashCommandBuilder, ChannelType, PermissionsBitField, PermissionFlagsBits  } = require('discord.js');
 const Course = require('../course');
 const Color = require('color');
 
@@ -10,7 +10,8 @@ module.exports = {
 		.addStringOption((option) => option.setName('classcode').setDescription('The class number (without the dept)').setRequired(true))
 		.addStringOption((option) => option.setName('semester').setDescription('The class semester (example: "Fall 2022"').setRequired(true))
         .addStringOption((option) => option.setName('cohabitate').setDescription('Select a class to cohabitate with').setRequired(true)
-        .setAutocomplete(true)),
+        .setAutocomplete(true))
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 	async execute(interaction, database) {
 		const dept = interaction.options.getString('dept').toUpperCase();
 		const course = interaction.options.getString('classcode');
@@ -54,76 +55,54 @@ module.exports = {
             });
 
             const studentID = interaction.guild.roles.cache.find(role => role.name === studentsRole).id;
+
+            const profChannelPerms = [{id: interaction.guild.id,
+                                deny: [PermissionsBitField.Flags.ViewChannel]},
+                                {id: studentID,
+                                allow: [PermissionsBitField.Flags.ViewChannel],
+                                deny: [PermissionsBitField.Flags.SendMessages,
+                                    PermissionsBitField.Flags.CreateInstantInvite,
+                                    PermissionsBitField.Flags.CreatePrivateThreads,
+                                    PermissionsBitField.Flags.CreatePublicThreads]}];
+
             interaction.guild.channels.create({
                 name: dept + ' ' + course + ' - ' + semester,
                 type: ChannelType.GuildCategory,
                 permissionOverwrites: [{
                     id: interaction.guild.id,
-                    deny: [PermissionsBitField.Flags.ViewChannel]
-                },
-                {
-                    id: studentID,
-                    allow:[PermissionsBitField.Flags.ViewChannel,
-                        PermissionsBitField.Flags.CreateInstantInvite,
-                        PermissionsBitField.Flags.CreatePrivateThreads,
-                        PermissionsBitField.Flags.CreatePublicThreads]
-                },],
-            }).then(category => {
+                    deny: [PermissionsBitField.Flags.ViewChannel]},
+
+                    {id: studentID,
+                    allow: [PermissionsBitField.Flags.ViewChannel],
+                    deny: [PermissionsBitField.Flags.CreateInstantInvite]}]})
+            .then(category => {
                 interaction.guild.channels.create({
                     name: 'announcements-' + course,
                     type: ChannelType.GuildText,
                     parent: category.id,
-                    permissionOverwrites: [{
-                        id: studentID,
-                        allow:[PermissionsBitField.Flags.ViewChannel],
-                        deny: [PermissionsBitField.Flags.SendMessages]    
-                    },
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionsBitField.Flags.ViewChannel]
-
-                    }]
+                    permissionOverwrites: profChannelPerms
                 });
                 interaction.guild.channels.create({
                     name: 'zoom-meeting-info-' + course,
                     type: ChannelType.GuildText,
                     parent: category.id,
-                    permissionOverwrites: [{
-                        id: studentID,
-                        allow:[PermissionsBitField.Flags.ViewChannel],
-                        deny: [PermissionsBitField.Flags.SendMessages]
-                         
-                    },
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionsBitField.Flags.ViewChannel]
-
-                    }]
+                    permissionOverwrites: profChannelPerms
                 });
                 interaction.guild.channels.create({
                     name: 'how-to-make-a-video',
                     type: ChannelType.GuildText,
                     parent: category.id,
-                    permissionOverwrites: [{
-                        id: studentID,
-                        allow:[PermissionsBitField.Flags.ViewChannel],
-                        deny: [PermissionsBitField.Flags.SendMessages]
-                    },
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionsBitField.Flags.ViewChannel]
-
-                    }]
+                    permissionOverwrites: profChannelPerms
                 });
                 interaction.guild.channels.create({
                     name: 'introduce-yourself',
                     type: ChannelType.GuildText,
-                    parent: category.id,
+                    parent: category.id
                 });
                 interaction.guild.channels.create({
                     name: 'chat',
                     type: ChannelType.GuildText,
-                    parent: category.id,
+                    parent: category.id
                 });
             });
             
