@@ -18,41 +18,40 @@ module.exports = {
 		const role4 = interaction.options.getRole(`role4`);
 		const role5 = interaction.options.getRole(`role5`);
 		
-		const rolesRow1 = [];
-		const rolesRow2 = [];
+		const roles = [];
 		if (role1 !== null) {
-			rolesRow1.push(new ButtonBuilder()
+			roles.push(new ButtonBuilder()
 				.setCustomId('button1')
 				.setLabel(`${role1.name}`)
 				.setStyle(ButtonStyle.Secondary));
 		}
 		if (role2 !== null) {
-			rolesRow1.push(new ButtonBuilder()
+			roles.push(new ButtonBuilder()
 				.setCustomId('button2')
 				.setLabel(`${role2.name}`)
 				.setStyle(ButtonStyle.Secondary));
 		}
 		if (role3 !== null) {
-			rolesRow1.push(new ButtonBuilder()
+			roles.push(new ButtonBuilder()
 				.setCustomId('button3')
 				.setLabel(`${role3.name}`)
 				.setStyle(ButtonStyle.Secondary));
 		}
 		if (role4 !== null) {
-			rolesRow1.push(new ButtonBuilder()
+			roles.push(new ButtonBuilder()
 				.setCustomId('button4')
 				.setLabel(`${role4.name}`)
 				.setStyle(ButtonStyle.Secondary));
 		}
 		if (role5 !== null) {
-			rolesRow1.push(new ButtonBuilder()
+			roles.push(new ButtonBuilder()
 				.setCustomId('button5')
 				.setLabel(`${role5.name}`)
 				.setStyle(ButtonStyle.Secondary));
 		}
 
 		const buttonRow1 = new ActionRowBuilder()
-			.addComponents(rolesRow1);
+			.addComponents(roles);
 		const embed = new EmbedBuilder()
 			.setTitle('Course Selection Tutorial')
             .setDescription('Read the steps carefully to ensure you that you get into the right class that you are registered for.')
