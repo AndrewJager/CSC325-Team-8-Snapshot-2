@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, ChannelType, PermissionsBitField, PermissionFlagsBits  } = require('discord.js');
 const Course = require('../course');
-const Color = require('color');
+// const Color = require('color');
 
 module.exports = {
 	data: new SlashCommandBuilder()
