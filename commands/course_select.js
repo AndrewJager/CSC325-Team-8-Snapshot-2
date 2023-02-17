@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, Embed, PermissionFlagsBits, ButtonStyle, ActionRowBuilder, ButtonBuilder, ActionRow, TeamMemberMembershipState } = require('discord.js');
+const wait = require('node:timers/promises').setTimeout;
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -81,30 +82,53 @@ module.exports = {
 
 		collector.on('collect', async (i) => {
 			const member = i.member;
-
 			if (i.customId === 'button1') {
-				member.roles.add(role1);
-				i.reply({ content: 'Role added', ephemeral:true });
+				if (!member.roles.cache.has(role1.id)) {
+					member.roles.add(role1);
+					await i.reply({ content: 'Role added', ephemeral:true });
+	
+				} else {
+					member.roles.remove(role1);
+					await i.reply({ content: 'Role removed', ephemeral:true });
+				}
 			}else if (i.customId === 'button2') {
-				member.roles.add(role2);
-				i.reply({ content: 'Role added', ephemeral:true });
+				if (!member.roles.cache.has(role2.id)) {
+					member.roles.add(role2);
+					await i.reply({ content: 'Role added', ephemeral:true });
+				} else {
+					member.roles.remove(role2);
+					await i.reply({ content: 'Role removed', ephemeral:true });
+				}
 			}else if (i.customId === 'button3') {
-				member.roles.add(role3);
-				i.reply({ content: 'Role added', ephemeral:true });
+				if (!member.roles.cache.has(role3.id)) {
+					member.roles.add(role3);
+					await i.reply({ content: 'Role added', ephemeral:true });
+				} else {
+					member.roles.remove(role3);
+					await i.reply({ content: 'Role removed', ephemeral:true });
+				}
 			}else if (i.customId === 'button4') {
-				member.roles.add(role4);
-				i.reply({ content: 'Role added', ephemeral:true });
+				if (!member.roles.cache.has(role4.id)) {
+					member.roles.add(role4);
+					await i.reply({ content: 'Role added', ephemeral:true });
+				} else {
+					member.roles.remove(role4);
+					await i.reply({ content: 'Role removed', ephemeral:true });
+				}
 			}else if (i.customId === 'button5') {
-				member.roles.add(role5);
-				i.reply({ content: 'Role added', ephemeral:true });
-			}else if (i.customId === 'button6') {
-				member.roles.add(role6);
-				i.reply({ content: 'Role added', ephemeral:true });
+				if (!member.roles.cache.has(role5.id)) {
+					member.roles.add(role5);
+					await i.reply({ content: 'Role added', ephemeral:true });
+				} else {
+					member.roles.remove(role5);
+					await i.reply({ content: 'Role removed', ephemeral:true });
+				}
 			}
 			else {
-				i.reply({ content: 'nothing happened (this is an error)', ephemeral:true });
+				await i.reply({ content: 'nothing happened (this is an error)', ephemeral:true });
 			}
-
+			await wait(4000);
+			await i.deleteReply();
 		});
 	},
 
