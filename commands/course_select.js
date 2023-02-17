@@ -69,7 +69,7 @@ module.exports = {
 				},
 				{
 					name: 'Step 3',
-					value: 'Click the button that is labelled after the class that you need. You will receive a message that will say that the role was successfully added.',
+					value: 'Click the button that is labelled after the class that you need. You will receive a message that will say that the role was successfully added. Click the button again to remove the role.',
 				},
 				{
 					name: 'Step 4',
