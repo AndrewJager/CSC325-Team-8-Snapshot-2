@@ -21,7 +21,6 @@ module.exports = {
 				[PermissionsBitField.Flags.SendMessages,
 				PermissionsBitField.Flags.ViewChannel,
 				PermissionsBitField.Flags.ReadMessageHistory,
-				PermissionsBitField.Flags.UseApplicationCommands,
 				PermissionsBitField.Flags.ChangeNickname,
 				PermissionsBitField.Flags.AddReactions, 
 				PermissionsBitField.Flags.AttachFiles],
