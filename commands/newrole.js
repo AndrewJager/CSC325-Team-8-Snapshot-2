@@ -5,7 +5,7 @@ module.exports = {
 		.setName('newrole')
 		.setDescription('Create a new general role')
 		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-		.addStringOption((option) => option.setName('name').setDescription('The class dept (without the class number)').setRequired(true))
+		.addStringOption((option) => option.setName('name').setDescription('Enter the name of the role').setRequired(true))
 		.addStringOption((option) => option.setName('color').setDescription('Enter a hexcode for the color of the role').setRequired(true)),
 	
     
