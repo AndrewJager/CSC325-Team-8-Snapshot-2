@@ -18,12 +18,13 @@ module.exports = {
         const veteranRole = course + " Veteran";
         const catName = dept + ' ' + course + ' - ' + semester;
 
-    if (interaction.guild.channels.cache.find(cat => cat.name === catName)) {
-        //super long category children find and delete
-        interaction.guild.channels.cache.find(cat => cat.name === catName) 
-            .children.cache.forEach(channel => channel.delete());
+        const category = interaction.guild.channels.cache.find(cat => cat.name.toLowerCase() === catName.toLowerCase());
+
+    if (category) {
+        //delete children
+        category.children.cache.forEach(channel => channel.delete());
         //delete category itself
-        interaction.guild.channels.cache.find(cat => cat.name === catName).delete();
+        category.delete();
 
         // Delete course from database
         database.deleteCourse(dept, course, semester);
